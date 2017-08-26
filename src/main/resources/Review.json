@@ -1,0 +1,22 @@
+{
+    "id": "${id}",
+    "stars": "${stars}",
+    "comment": "${comment}",
+    "about": {
+        "id": "${id}",
+        "firstName": "${firstName}",
+        "lastName": "${lastName}",
+        "username": "${username}",
+        "password": "${password}",
+        "memberSince": "${memberSince}"
+    },
+    "author": {
+        "id": "${id}",
+        "firstName": "${firstName}",
+        "lastName": "${lastName}",
+        "username": "${username}",
+        "password": "${password}",
+        "memberSince": "${memberSince}",
+        "movingJob": "${movingJob}"
+    }
+}
