@@ -3,7 +3,6 @@
     "firstName": "${firstName}",
     "lastName": "${lastName}",
     "username": "${username}",
-    "password": "${password}",
     "memberSince": "${memberSince}",
     "group": {
         "id": "${id}",

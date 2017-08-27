@@ -3,19 +3,20 @@
  */
 package com.e.labor;
 
-import com.e.labor.model.Mover;
-import com.e.labor.repository.MoverRepository;
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,42 +26,50 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
-
-    @Autowired
-    MoverRepository moverRepository;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    
+    private final static Logger LOG = LoggerFactory.getLogger(WebSecurityConfiguration.class.getName());
+    
+    @Autowired AuthenticationManager authenticationManager;
 
     @Bean
-    public DaoAuthenticationProvider authProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
+    public AuthenticationManager authenticationManager() {
+        return authenticationManager;
     }
 
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService());
+        auth.parentAuthenticationManager(authenticationManager());
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     @Bean
-    UserDetailsService userDetailsService() {
-        return (String username) -> {
-            Mover mover = moverRepository.findByUsername(username);
-            if (mover != null) {
-                return new User(mover.getUsername(), mover.getPassword(), true, true, true, true,
-                        AuthorityUtils.createAuthorityList("USER"));
-            } else {
-                throw new UsernameNotFoundException("could not find the user '"
-                        + username + "'");
-            }
-        };
-    }
+  public EmbeddedServletContainerFactory servletContainer() {
+    TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
+        @Override
+        protected void postProcessContext(Context context) {
+          SecurityConstraint securityConstraint = new SecurityConstraint();
+          securityConstraint.setUserConstraint("CONFIDENTIAL");
+          SecurityCollection collection = new SecurityCollection();
+          collection.addPattern("/*");
+          securityConstraint.addCollection(collection);
+          context.addConstraint(securityConstraint);
+        }
+      };
+    tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());
+    return tomcat;
+  }
+  
+  private Connector initiateHttpConnector() {
+    Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+    connector.setScheme("http");
+    connector.setPort(8090);
+    connector.setSecure(false);
+    connector.setRedirectPort(8093);
+    return connector;
+}
+    
 }

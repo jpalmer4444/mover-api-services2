@@ -5,6 +5,8 @@ package com.e.labor.model;
 
 import java.util.List;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -12,6 +14,8 @@ import org.springframework.data.annotation.Id;
  * @author jasonpalmer
  */
 public class Group {
+    
+    private final static Logger logger = LoggerFactory.getLogger(Group.class.getName());
     
     @Id
     private String id;

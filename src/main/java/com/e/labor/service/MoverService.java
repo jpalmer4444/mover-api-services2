@@ -25,6 +25,8 @@ public interface MoverService {
     
     Mover insert(Mover mover);
     
+    Mover login(String username, String password);
+    
     List<Mover>group(Group group);
     
     List<Mover>groupLikeName(String name, Pageable pageable);

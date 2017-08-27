@@ -6,6 +6,8 @@
 package com.e.labor.model;
 
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,20 +15,22 @@ import java.util.Date;
  */
 public class Availability {
     
+    private final static Logger logger = LoggerFactory.getLogger(Availability.class.getName());
+    
     private String id;
     
-    private Mover mover;
+    private String moverId;
     
     private Date start;
     
     private Date end;
 
-    public Mover getMover() {
-        return mover;
+    public String getMoverId() {
+        return moverId;
     }
 
-    public void setMover(Mover mover) {
-        this.mover = mover;
+    public void setMoverId(String moverId) {
+        this.moverId = moverId;
     }
 
     public Date getStart() {

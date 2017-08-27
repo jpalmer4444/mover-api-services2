@@ -1,9 +1,11 @@
- /*
+/*
  * Review
  */
 package com.e.labor.model;
 
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -11,15 +13,17 @@ import java.util.Objects;
  */
 public class Review {
     
+    private final static Logger logger = LoggerFactory.getLogger(Review.class.getName());
+    
     private long id;
     
     private short stars;
     
     private String comment;
     
-    private User about;
+    private String aboutId;
     
-    private User author;
+    private String authorId;
     
     private MovingJob movingJob;
 
@@ -47,20 +51,20 @@ public class Review {
         this.comment = comment;
     }
 
-    public User getAbout() {
-        return about;
+    public String getAboutId() {
+        return aboutId;
     }
 
-    public void setAbout(User about) {
-        this.about = about;
+    public void setAboutId(String aboutId) {
+        this.aboutId = aboutId;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public MovingJob getMovingJob() {
@@ -74,7 +78,7 @@ public class Review {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 41 * hash + Objects.hashCode(this.about);
+        hash = 41 * hash + Objects.hashCode(this.aboutId);
         return hash;
     }
 

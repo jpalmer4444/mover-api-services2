@@ -7,12 +7,16 @@ package com.e.labor.model;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author jasonpalmer
  */
 public class MovingJob {
+    
+    private final static Logger logger = LoggerFactory.getLogger(MovingJob.class.getName());
     
     private long id;
     
@@ -24,9 +28,9 @@ public class MovingJob {
     
     private Date end;
     
-    private Mover driver;
+    private String driverId;
     
-    private Set<Mover> movers;
+    private Set<String> moverIds;
 
     public MovingJob() {
     }
@@ -71,26 +75,26 @@ public class MovingJob {
         this.end = end;
     }
 
-    public Mover getDriver() {
-        return driver;
+    public String getDriverId() {
+        return driverId;
     }
 
-    public void setDriver(Mover driver) {
-        this.driver = driver;
+    public void setDriverId(String driverId) {
+        this.driverId = driverId;
     }
 
-    public Set<Mover> getMovers() {
-        return movers;
+    public Set<String> getMoverIds() {
+        return moverIds;
     }
 
-    public void setMovers(Set<Mover> movers) {
-        this.movers = movers;
+    public void setMoverIds(Set<String> moverIds) {
+        this.moverIds = moverIds;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.driver);
+        hash = 89 * hash + Objects.hashCode(this.driverId);
         return hash;
     }
 
