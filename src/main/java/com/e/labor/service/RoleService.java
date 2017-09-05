@@ -9,12 +9,6 @@ import com.e.labor.model.Role;
  *
  * @author jasonpalmer
  */
-public interface RoleService {
-    
-    Role save(Role role);
-    
-    Role get(String role);
-    
-    void delete(String role);
+public interface RoleService extends MongoService<Role> {
     
 }

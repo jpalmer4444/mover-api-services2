@@ -20,13 +20,23 @@ public enum Stars {
     _8_25, _8_5, _8_75, _9_0,
     _9_25, _9_5, _9_75, _10_0;
     
-    public short getStarValue(){
-        String stripped = this.name().replace("_", "").replace("_", ".");
-        return Short.parseShort(stripped);
+    public double getStarValue(){
+        String stripped = this.name().replaceFirst("_", "");
+        stripped = stripped.replaceFirst("_", ".");
+        if(stripped.startsWith("0.")){
+            stripped = stripped.replaceFirst("0", "");
+        }
+        double val = Double.parseDouble(stripped);
+        return Double.parseDouble(stripped);
+    }
+    
+    public static void main(String[] args){
+        Stars._0_25.getStarValue();
     }
     
     public Stars getStarForValue(short rating){
         String _rating = String.valueOf(rating);
+        
         if(_rating.contains(".00")){
             _rating = _rating.replace(".00", ".0");
         }

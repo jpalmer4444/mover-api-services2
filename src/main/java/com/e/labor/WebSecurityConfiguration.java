@@ -3,15 +3,9 @@
  */
 package com.e.labor;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,10 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
-    
+
     private final static Logger LOG = LoggerFactory.getLogger(WebSecurityConfiguration.class.getName());
-    
-    @Autowired AuthenticationManager authenticationManager;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Bean
     public AuthenticationManager authenticationManager() {
@@ -45,7 +40,10 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     
+
+    /*
     @Bean
   public EmbeddedServletContainerFactory servletContainer() {
     TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
@@ -71,5 +69,5 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
     connector.setRedirectPort(8093);
     return connector;
 }
-    
+     */
 }

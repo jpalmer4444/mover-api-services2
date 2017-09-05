@@ -20,12 +20,14 @@ public class Mover {
     
     private final static Logger LOG = LoggerFactory.getLogger(Mover.class.getName());
     
+    @Id
+    private String username;
+    
+    private String email;
+    
     private String firstName;
     
     private String lastName;
-    
-    @Id
-    private String username;
     
     @JsonIgnore
     private String password;
@@ -40,10 +42,11 @@ public class Mover {
     
     private List<String> roles;
 
-    public Mover(String firstName, String lastName, String username, String password, Date memberSince, int years, int months, List<String> reviewIds, List<String> roles){
+    public Mover(String firstName, String lastName, String username, String email, String password, Date memberSince, int years, int months, List<String> reviewIds, List<String> roles){
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
+        this.email = email;
         this.password = password;
         this.memberSince = memberSince;
         this.years = years;
@@ -109,6 +112,14 @@ public class Mover {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

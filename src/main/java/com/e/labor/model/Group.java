@@ -27,8 +27,11 @@ public class Group {
     private String state;
     
     private List<String>moverIds;
+    
+    private String ownerId;
 
-    public Group(String id, String name, String city, String state, List<String> moverIds) {
+    public Group(String id, String name, String city, String state, List<String> moverIds, String ownerId) {
+        this.ownerId = ownerId;
         this.id = id;
         this.name = name;
         this.city = city;
@@ -37,6 +40,14 @@ public class Group {
     }
     
     public Group() {
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public List<String> getMoverIds() {
@@ -98,7 +109,7 @@ public class Group {
             return false;
         }
         final Group other = (Group) obj;
-        return this.id.equals(other.id);
+        return this.id.equals(other.id) && this.city.equals(other.city);
     }
     
     

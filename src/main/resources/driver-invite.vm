@@ -1,0 +1,21 @@
+<html>
+<body>
+	<p>You are cordially (or otherwise) invited to join ${groupName} with Moving Services<p>
+	
+	<strong>${firstName},</strong><br />
+	
+	<fieldset>
+
+            <legend>You are invited!</legend>
+
+            ${groupLeaderName} has invited you to join. This is good news as this means you can 
+            be scheduled to work as soon as you accept and verify this invitation by logging into 
+            the Moving Services app.
+	
+	</fieldset>
+	<br/>
+
+	<a href="movingservices.com/register?tkn=${jwt}">Login Here</a>
+
+</body>
+</html>

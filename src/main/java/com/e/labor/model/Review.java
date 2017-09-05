@@ -13,11 +13,11 @@ import org.slf4j.LoggerFactory;
  */
 public class Review {
     
-    private final static Logger logger = LoggerFactory.getLogger(Review.class.getName());
+    private final static Logger LOG = LoggerFactory.getLogger(Review.class.getName());
     
-    private long id;
+    private String id;
     
-    private short stars;
+    private double stars;
     
     private String comment;
     
@@ -25,21 +25,21 @@ public class Review {
     
     private String authorId;
     
-    private MovingJob movingJob;
+    private String movingJobId;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public short getStars() {
+    public double getStars() {
         return stars;
     }
 
-    public void setStars(short stars) {
+    public void setStars(double stars) {
         this.stars = stars;
     }
 
@@ -67,12 +67,12 @@ public class Review {
         this.authorId = authorId;
     }
 
-    public MovingJob getMovingJob() {
-        return movingJob;
+    public String getMovingJobId() {
+        return movingJobId;
     }
 
-    public void setMovingJob(MovingJob movingJob) {
-        this.movingJob = movingJob;
+    public void setMovingJobId(String movingJobId) {
+        this.movingJobId = movingJobId;
     }
 
     @Override
