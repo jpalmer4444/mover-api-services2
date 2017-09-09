@@ -4,14 +4,10 @@
 package com.e.labor.authentication;
 
 import com.e.labor.model.Mover;
-import com.e.labor.model.Role;
 import com.e.labor.service.MoverService;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

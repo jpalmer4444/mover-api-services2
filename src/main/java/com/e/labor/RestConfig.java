@@ -5,6 +5,7 @@ package com.e.labor;
 
 import javax.servlet.Filter;
 import org.apache.catalina.filters.RequestDumperFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RestConfig {
     
-    private final static boolean DEBUG = true;
+    @Value("${debug}")
+    private boolean DEBUG;
     
     @Bean
     public FilterRegistrationBean requestDumperFilter() {
@@ -22,5 +24,7 @@ public class RestConfig {
         registration.addUrlPatterns(DEBUG ? "/*": "/nourlunlessyouactuallyrouteditthisway");
         return registration;
     }
+    
+    
 
 }

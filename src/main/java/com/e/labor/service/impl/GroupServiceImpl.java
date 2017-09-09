@@ -9,12 +9,10 @@ import com.e.labor.model.Group;
 import com.e.labor.model.Mover;
 import com.e.labor.repository.GroupRepository;
 import com.e.labor.service.GroupService;
-import com.e.labor.service.MoverService;
 import com.e.labor.service.ReviewService;
 import com.e.labor.utility.OffsetBasedPageRequest;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -22,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Criteria;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import org.springframework.data.mongodb.core.query.Query;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -44,9 +41,6 @@ public class GroupServiceImpl implements GroupService, InitializingBean {
     private ReviewService reviewService;
 
     @Autowired
-    private MoverService moverService;
-
-    @Autowired
     private MongoOperations mongoOperations;
 
     @Override
@@ -56,27 +50,35 @@ public class GroupServiceImpl implements GroupService, InitializingBean {
 
     @Override
     public Group get(String id) {
-        return groupRepository.findOne(id);
+        Group group = groupRepository.findOne(id);
+        LOG.info(String.format("get(%s) Found group %s", id, group != null ? group.getName() : "NONE"));
+        return group;
     }
 
     @Override
     public Group findByName(String name) {
-        return groupRepository.findByName(name);
+        Group group = groupRepository.findByName(name);
+        LOG.info(String.format("findByName(%s) found: %s", name, group != null ? group.getName() : "NONE"));
+        return group;
     }
 
     @Override
     public void delete(String id) {
+        LOG.info(String.format("Deleting group with ID %s", id));
         groupRepository.delete(id);
     }
 
     @Override
     public Group insert(Group group) {
+        LOG.info(String.format("Inserting group with name: %s", group != null ? group.getName() : "null"));
         return groupRepository.insert(group);
     }
 
     @Override
     public List<Group> getAll(OffsetBasedPageRequest pageable) {
-        return groupRepository.findAll(pageable).getContent();
+        List<Group> groups = groupRepository.findAll(pageable).getContent();
+        LOG.info(String.format("getAll returned %s groups.", groups.size()));
+        return groups;
     }
 
     @Override
@@ -85,7 +87,7 @@ public class GroupServiceImpl implements GroupService, InitializingBean {
         moverIds.add(username);
         Query myquery = query(where("moverIds").in(moverIds));
         List<Group> groups = mongoOperations.find(myquery, Group.class);
-        LOG.info("Group Size: " + (groups != null ? groups.size() : null));
+        LOG.info(String.format("Group size: %s", groups != null ? groups.size() : 0));
         return groups;
     }
 
@@ -109,10 +111,10 @@ public class GroupServiceImpl implements GroupService, InitializingBean {
             Set<Rating> ratings = new HashSet<>();
             moversInGroup.stream().map((mover) -> reviewService.getRatingForMover(mover.getUsername())).
                     forEachOrdered((rating) -> {
-                        if(rating != null)
+                        if (rating != null) {
                             ratings.add(rating);
+                        }
                     });
-
             gmr.setMovers(new HashSet<>(moversInGroup));
             gmr.setRatings(ratings);
             groupMoverRatings.add(gmr);
